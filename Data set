@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+list=[]
+for a in range(2):
+    for b in range(2-a):
+            
+        c=1-a-b
+        i=[a,b,c]     #第一个区域元素特征向量      
+        
+        for d in range(7):
+            for e in range(7-d):
+                f=6-d-e
+                j=[d,e,f]   #第二个区域元素特征向量
+                m=np.append(i,j)  #合并一二区域特征向量
+                
+                for g in range(4):
+                    for h in range(4-g):
+                        l=3-g-h
+                        k=[g,h,l]     #第二个区域元素特征向量      
+                        #print(c)
+                        n=np.append(m,k)   #三个区域元素总特征向量
+                            
+                        list.append(n)     #合并全部特征向量至二维数组
+df = pd.DataFrame(list)
+df.columns = ['Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu']
+print(df)
+df.to_excel('top.xlsx')
