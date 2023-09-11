@@ -1,3 +1,4 @@
+#top位点特征数据集
 import numpy as np
 import pandas as pd
 list=[]
@@ -25,3 +26,159 @@ df = pd.DataFrame(list)
 df.columns = ['Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu']
 print(df)
 df.to_excel('top.xlsx')
+
+#top位点样本
+sample=df.sample(n=50, random_state=0)
+print(sample)
+sample.to_excel('top-sample.xlsx')
+
+#根据样本数据构建POSCAR数据集
+import numpy as np
+import pandas as pd
+from pandas import Series
+#import operator
+#import os
+#file_path="D:\study\data\data\had"
+st=['0.583329968         0.416669986         0.478359980','0.583329966         0.666670006         0.478359980',
+    '0.833329966         0.666670006         0.478359980','0.333329992         0.416669986         0.478359980',
+    '0.833329944         0.416669986         0.478359980','0.583329960         0.166669994         0.478359980',
+    '0.333330008         0.166669994         0.478359980','0.750000040         0.499999984         0.382130013',
+    '0.499999992         0.499999984         0.382130013','0.500000008         0.249999992         0.382130013']#创建10个微观原子结构坐标列表
+
+#print(sample.iloc[0])
+for j in range(50):
+    a=sample.iloc[j]
+
+    list=[]
+    for i in range(a[0]):
+        a1=3
+        list.append(a1)
+    for i in range(a[1]):
+        a2=1
+        list.append(a2)
+    for i in range(a[2]):
+        a3=2
+        list.append(a3)
+    for i in range(a[3]):
+        a4=3
+        list.append(a4)
+    for i in range(a[4]):
+        a5=1
+        list.append(a5)
+    for i in range(a[5]):
+        a6=2
+        list.append(a6)
+    for i in range(a[6]):
+        a7=3
+        list.append(a7)
+    for i in range(a[7]):
+        a8=1
+        list.append(a8)
+    for i in range(a[8]):
+        a9=2
+        list.append(a9)
+    b=list
+    b=np.array(b)#根据样本数据集构建与坐标值对应的各区域原子位置，如[1/3 1 1 2 2 2/1 2 3] (1，2，3分别代表Ni,Cu,Cr)
+    st=np.array(st)
+    s=dict(zip(st,b))#将坐标与原子列表通过字典对应
+    s = dict(sorted(s.items(), key=operator.itemgetter(1)))#根据值进行排序，即将Ni,Cu,Cr各坐标顺序排列，以便POSCAR的构建
+    s2=Series(s)
+    s3=s2.index.tolist()#将排列好的坐标转换成列表
+    f = open(r'POSCAR.txt','r')
+    a=[i for i in f]
+   # print(a)
+    c=[str(i)+'\n' for i in s3]
+    #print(s3)
+    f.close()#将POSCAR前半部分导入
+    b=np.append(a,c)#合并成一个完整的POSCAR
+    #print(b)
+    f = open(r'num.txt','r')#替换各原子，使其总数目正确
+    a1=[i for i in f]
+    #print(a1)
+    f.close()
+    b[6]=a1[j]
+    f=open("POSCAR%d"%(j+1),"w")#输出POSCAR数据集
+ 
+    for line in b:
+        f.write(line)
+    f.close()
+
+#fcc位点特征数据集
+import numpy as np
+import pandas as pd
+list=[]
+for i1 in range(4):
+    for j1 in range(4-i1):
+        k1=3-i1-j1
+        a1=[i1,j1,k1]           
+        
+        for i2 in range(4):
+            for j2 in range(4-i2):
+                k2=3-i2-j2
+                a2=[i2,j2,k2]
+                m1=np.append(a1,a2)
+                
+                for i3 in range(4):
+                    for j3 in range(4-i3):
+                        k3=3-i3-j3
+                        a3=[i3,k3,j3]           
+                        #print(c)
+                        m2=np.append(m1,a3)
+                        
+                        for i4 in range(7):
+                            for j4 in range(7-i4):
+                                k4=6-i4-j4
+                                a4=[i4,j4,k4]           
+                                m3=np.append(m2,a4)
+                                
+                                for i5 in range(4):
+                                    for j5 in range(4-i5):
+                                        k5=3-i5-j5
+                                        a5=[i5,j5,k5]
+                                        m4=np.append(m3,a5)
+                        
+                                        list.append(m4)
+df = pd.DataFrame(list)
+df.columns = ['Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu']
+print(df)
+df.to_excel('fcc2.xlsx')
+
+#hcp位点特征数据集
+import numpy as np
+import pandas as pd
+list=[]
+for i1 in range(4):
+    for j1 in range(4-i1):
+        k1=3-i1-j1
+        a1=[i1,j1,k1]           
+        
+        for i2 in range(2):
+            for j2 in range(2-i2):
+                k2=1-i2-j2
+                a2=[i2,j2,k2]
+                m1=np.append(a1,a2)
+                
+                for i3 in range(4):
+                    for j3 in range(4-i3):
+                        k3=3-i3-j3
+                        a3=[i3,k3,j3]           
+                        #print(c)
+                        m2=np.append(m1,a3)
+                        
+                        for i4 in range(7):
+                            for j4 in range(7-i4):
+                                k4=6-i4-j4
+                                a4=[i4,j4,k4]           
+                                m3=np.append(m2,a4)
+                                
+                                for i5 in range(7):
+                                    for j5 in range(7-i5):
+                                        k5=6-i5-j5
+                                        a5=[i5,j5,k5]
+                                        m4=np.append(m3,a5)
+                        
+                                        list.append(m4)
+df = pd.DataFrame(list)
+df.columns = ['Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu','Cr','Ni','Cu']
+print(df)
+df.to_excel('hcp.xlsx')
